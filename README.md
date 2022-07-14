@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+Add your weight and height to get your Body Mass Index. 
+Shows the BMI chart.
+
+![image](https://user-images.githubusercontent.com/37849194/179064282-0cf74e95-31fe-4ea7-a349-3e90309f43ec.png)
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
