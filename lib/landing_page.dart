@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BMI extends StatefulWidget {
   const BMI({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class _BMIState extends State<BMI> {
   double result = 0.00;
   double _heightValue = 0.0;
   int weight = 0;
-  bool isMale = true;
+  bool? isMale = true;
 
   String checkHealth() {
     if (result < 18.5) {
@@ -62,7 +63,8 @@ class _BMIState extends State<BMI> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(Icons.male, color: Colors.white, size: 100),
+                          const Icon(Icons.male,
+                              color: Colors.white, size: 100),
                           const Text("MALE",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 25))
@@ -74,15 +76,14 @@ class _BMIState extends State<BMI> {
                     onTap: () {
                       //isMale = true;
                       setState(() {
-                        isMale = !isMale;
+                        isMale = false;
                       });
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.2,
                       width: MediaQuery.of(context).size.width * 0.40,
                       decoration: BoxDecoration(
-                          color: isMale == false ? themeColor : tileColor,
-                          //color: themeColor,
+                          color: isMale == false ? tileColor : themeColor,
                           borderRadius: BorderRadius.circular(10.0)),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -127,6 +128,7 @@ class _BMIState extends State<BMI> {
                         activeColor: Color.fromARGB(255, 177, 177, 177),
                         value: _heightValue,
                         onChanged: (value) {
+                          HapticFeedback.heavyImpact();
                           setState(() {
                             _heightValue = value;
                           });
@@ -154,6 +156,7 @@ class _BMIState extends State<BMI> {
                         children: [
                           InkWell(
                             onTap: () => setState(() {
+                              HapticFeedback.heavyImpact();
                               if (weight > 0) weight--;
                             }),
                             child: Container(
@@ -166,9 +169,12 @@ class _BMIState extends State<BMI> {
                             ),
                           ),
                           InkWell(
-                            onTap: () => setState(() {
-                              weight++;
-                            }),
+                            onTap: () {
+                              HapticFeedback.heavyImpact();
+                              setState(() {
+                                weight++;
+                              });
+                            },
                             child: Container(
                               height: 60,
                               decoration: BoxDecoration(
@@ -197,7 +203,7 @@ class _BMIState extends State<BMI> {
                           return Dialog(
                             child: Container(
                               width: 100,
-                              height: MediaQuery.of(context).size.height * 0.4,
+                              height: MediaQuery.of(context).size.height * 0.45,
                               decoration: BoxDecoration(
                                 color: tileColor,
                               ),
@@ -247,7 +253,12 @@ class _BMIState extends State<BMI> {
                                               TextStyle(color: Colors.white)),
                                     ),
                                   ],
-                                )
+                                ),
+                                Text("*BMI applies to most adults 18-65 years",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: 10)),
                               ]),
                             ),
                           );
